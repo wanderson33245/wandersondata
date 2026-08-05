@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certifications — William Anderson</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B0B0C;
+    --amber: #E8A33D;
+    --steel: #5B6B73;
+    --text-primary: #F2F2F0;
+    --text-secondary: #A8ADB0;
+    --muted: #A8ADB0;
+    --accent: #E8A33D;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .mono {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    border-bottom: 1px solid rgba(91, 107, 115, 0.3);
+  }
+
+  nav .logo {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  nav .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-left: 2rem;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+  }
+
+  nav .nav-links a:hover,
+  nav .nav-links a.active {
+    color: var(--amber);
+  }
+
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .page-header .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--steel);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.75rem;
+  }
+
+  /* ---- Section headers ---- */
+  .tier-section {
+    margin-bottom: 3.5rem;
+  }
+
+  .tier-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .tier-section .tier-desc {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ---- Core Certifications: larger cards ---- */
+  .core-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .core-card {
+    border: 1px solid rgba(91, 107, 115, 0.3);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .core-card img {
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .core-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .cert-field {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+  }
+
+  .cert-field strong {
+    color: var(--text-primary);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+  }
+
+  /* ---- Quick Skill-Builders: tighter list/table ---- */
+  .skill-builders-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  .skill-builders-table th {
+    text-align: left;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid rgba(91, 107, 115, 0.3);
+  }
+
+  .skill-builders-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(91, 107, 115, 0.15);
+    vertical-align: middle;
+  }
+
+  .skill-builders-table .cert-icon-cell img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .continuing-learning {
+    border-top: 1px dashed rgba(91, 107, 115, 0.4);
+    padding-top: 2.5rem;
+  }
+
+  .continuing-learning .tier-desc {
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 1.25rem 1.5rem; }
+    nav .nav-links a { margin-left: 1rem; font-size: 0.85rem; }
+    .skill-builders-table { font-size: 0.8rem; }
+    .skill-builders-table th:nth-child(3),
+    .skill-builders-table td:nth-child(3) { display: none; } /* hide a less-critical column on mobile */
+  }
+
+  footer {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">WILLIAM ANDERSON</a>
+  <div class="nav-links">
+    <a href="metal-corpus.html">The Metal Corpus</a>
+    <a href="certifications.html" class="active">Certifications</a>
+  </div>
+</nav>
+
+<main>
+
+  <div class="page-header">
+    <div class="eyebrow">Certifications & Continuing Learning</div>
+    <h1>What I've Learned</h1>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CORE CERTIFICATIONS                                          -->
+  <!-- ============================================================ -->
+  <section class="tier-section">
+    <h2>Core Certifications</h2>
+    <p class="tier-desc">The data-focused credentials that make up the backbone of my skill set.</p>
+
+    <div class="core-grid">
+
+      <div class="core-card">
+        <a href="https://www.credly.com/badges/6c58c1d6-99d6-4142-a374-2e3c49d09a37/linked_in_profile" target="_blank">
+          <img src="assets/GoogleDataAnalyticsCertificate.png" width="198">
+        </a>
+        <h3>Google Data Analytics Professional Certificate</h3>
+        <p class="cert-field"><strong>Earned:</strong> October 2024</p>
+        <p class="cert-field"><strong>Why:</strong> To gain an industry-standard data analysis foundation</p>
+        <p class="cert-field"><strong>Skills:</strong> Data analysis, Python, SQL, R, Google BigQuery</p>
+      </div>
+
+      <div class="core-card">
+        <a href="https://www.credly.com/badges/2e085aa7-9601-4890-b814-64be107b8fbe/linked_in_profile" target="_blank">
+          <img src="assets/MicrosoftExcelExpert.png" width="198">
+        </a>
+        <h3>MO-211: Microsoft Excel Expert (M365 Apps)</h3>
+        <p class="cert-field"><strong>Earned:</strong> February 2026</p>
+        <p class="cert-field"><strong>Why:</strong> Excel and VBA were already central to my work. I wanted a credential that proved it.</p>
+        <p class="cert-field"><strong>Skills:</strong> Advanced Microsoft Excel, VBA, Pivot Tables, data cleaning, data visualization</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- QUICK SKILL-BUILDERS                                         -->
+  <!-- ============================================================ -->
+  <section class="tier-section">
+    <h2>Quick Skill-Builders</h2>
+    <p class="tier-desc">Shorter, focused certs — quick to complete, still worth doing right.</p>
+
+    <table class="skill-builders-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Cert Name</th>
+          <th>Earned</th>
+          <th>Skills</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td class="cert-icon-cell">
+            <a href="https://www.salesforce.com/trailblazer/h0oro5ljtsk730ewlc" target="_blank">
+              <img src="assets/SalesforceCertifiedTableauDesktopFoundationsHighRes.png" width="50">
+            </a>
+          </td>
+          <td>Salesforce Certified Tableau Desktop Foundations</td>
+          <td>May 2026</td>
+          <td>Data visualization, dashboard design, basic Tableau workflow</td>
+        </tr>
+
+        <tr>
+          <td class="cert-icon-cell">
+            <a href="https://app-na2.hubspot.com/academy/245383889/profile" target="_blank">
+              <img src="assets/HubSpotLogo.jpeg" width="48">
+            </a>
+          </td>
+          <td>HubSpot Reporting</td>
+          <td>May 2026</td>
+          <td>Marketing analytics, report building, HubSpot dashboards</td>
+        </tr>
+
+        <tr>
+          <td class="cert-icon-cell">
+            <a href="https://app-na2.hubspot.com/academy/245383889/profile" target="_blank">
+              <img src="assets/HubSpotLogo.jpeg" width="48">
+            </a>
+          </td>
+          <td>Data Integrations Certification</td>
+          <td>July 2026</td>
+          <td>API fundamentals, data syncing between platforms</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- CONTINUING LEARNING (non-data, e.g. NASM)                    -->
+  <!-- ============================================================ -->
+  <section class="tier-section continuing-learning">
+    <h2>Continuing Learning</h2>
+    <p class="tier-desc">Not data-related, just proof that "lifelong learner" isn't limited to my day job.</p>
+
+    <table class="skill-builders-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Cert Name</th>
+          <th>Earned</th>
+          <th>Why / What it taught me</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td class="cert-icon-cell"><img src="assets/NASM_CPT.png" width="54"></td>
+          <td>NASM Certified Personal Trainer</td>
+          <td>February 2025</td>
+          <td>I love weightlifting and wanted to learn how to help my friends and family without them getting injured</td>
+        </tr>
+        <tr>
+          <td class="cert-icon-cell"><img src="assets/NASM_CNC.png" width="54"></td>
+          <td>NASM Certified Nutrition Coach</td>
+          <td>August 2025</td>
+          <td>I can help people I care about make better eating decisions, too</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 William Anderson
+</footer>
+
+</body>
+</html>

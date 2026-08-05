@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Metal Corpus — William Anderson</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B0B0C;
+    --amber: #E8A33D;
+    --steel: #5B6B73;
+    --text-primary: #F2F2F0;
+    --text-secondary: #A8ADB0;
+    --muted: #A8ADB0;
+    --accent: #E8A33D;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .mono {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    border-bottom: 1px solid rgba(91, 107, 115, 0.3);
+  }
+
+  nav .logo {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  nav .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-left: 2rem;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+  }
+
+  nav .nav-links a:hover,
+  nav .nav-links a.active {
+    color: var(--amber);
+  }
+
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+
+  /* ---- Hero: the "life" finding, front and center ---- */
+  .finding-hero {
+    text-align: center;
+    padding: 3rem 0 4rem;
+  }
+
+  .finding-hero .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--steel);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.75rem;
+  }
+
+  .finding-hero .big-word {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 6rem;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .finding-hero .sub-finding {
+    color: var(--text-secondary);
+    font-size: 1.15rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .finding-hero .sub-finding strong {
+    color: var(--text-primary);
+  }
+
+  /* ---- Project summary ---- */
+  .summary {
+    margin-bottom: 3.5rem;
+  }
+
+  .summary p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  .stat {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .stat .stat-number {
+    display: block;
+    font-size: 1.75rem;
+    color: var(--amber);
+    font-weight: 500;
+  }
+
+  .stat .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ---- Video section ---- */
+  .video-section {
+    margin-bottom: 3.5rem;
+  }
+
+  .video-section h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(91, 107, 115, 0.3);
+  }
+
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* ---- Notebook / findings section ---- */
+  .notebook-section {
+    text-align: center;
+    padding: 2.5rem;
+    border: 1px solid rgba(91, 107, 115, 0.3);
+    border-radius: 8px;
+  }
+
+  .notebook-section h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .notebook-section p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-button {
+    display: inline-block;
+    background: var(--amber);
+    color: var(--bg);
+    text-decoration: none;
+    padding: 0.75rem 2rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    transition: opacity 0.2s;
+  }
+
+  .cta-button:hover {
+    opacity: 0.85;
+  }
+
+  .cta-button.secondary {
+    background: transparent;
+    border: 1px solid var(--amber);
+    color: var(--amber);
+    margin-left: 1rem;
+  }
+
+  .wordcloud-img {
+    width: 100%;
+    max-width: 760px;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    border: 1px solid rgba(91, 107, 115, 0.3);
+  }
+
+  footer {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  @media (max-width: 600px) {
+    .finding-hero .big-word { font-size: 3.5rem; }
+    nav { padding: 1.25rem 1.5rem; }
+    nav .nav-links a { margin-left: 1rem; font-size: 0.85rem; }
+    .stats-row { gap: 1.5rem; }
+    .cta-button.secondary { margin-left: 0; margin-top: 0.75rem; display: inline-block; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">WILLIAM ANDERSON</a>
+  <div class="nav-links">
+    <a href="metal-corpus.html" class="active">The Metal Corpus</a>
+    <a href="certifications.html">Certifications</a>
+  </div>
+</nav>
+
+<main>
+
+  <section class="finding-hero">
+    <div class="eyebrow">The Metal Corpus</div>
+    <img src="assets/TheMetalCorpusLogoWhite.png" alt="The Metal Corpus" width="450">
+    <div class="big-word">"life"</div>
+    <p class="sub-finding">
+      The most common meaningful word across heavy metal lyrics,
+      <strong>not "death."</strong> Ten of thirteen subgenres agree.
+      Only black metal actually leads with "death."
+    </p>
+  </section>
+
+  <section class="summary">
+    <p>
+      The Metal Corpus is a data pipeline that collects, cleans, and analyzes lyrics
+      from over 1,100 heavy metal bands across 13 subgenres, built to answer a question
+      I've had for years: what does the genre actually talk about?
+    </p>
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-number">1,113</span>
+        <span class="stat-label">Bands</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">63,647</span>
+        <span class="stat-label">Songs</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">44</span>
+        <span class="stat-label">Countries</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">16.6M</span>
+        <span class="stat-label">Words</span>
+      </div>
+    </div>
+    <img src="assets/MetalVocabWordCloudLarge.png" alt="Metal Vocab Word Cloud" class="wordcloud-img">
+  </section>
+
+  <!--
+  <section class="video-section">
+    <h3>Walkthrough</h3>
+    <div class="video-wrapper">
+      <iframe src="" allowfullscreen></iframe>
+    </div>
+  </section>
+  -->
+
+  <section class="notebook-section">
+    <h3>The Full Analysis</h3>
+    <p>
+      Three metrics, three different answers: the most used word, the most
+      disproportionately "metal" word, and the most universally "metal" word
+      across every subgenre. The full breakdown with tables, word clouds, 
+      my methodology, and more lives in the notebook.
+    </p>
+    <a href="https://github.com/wanderson33245/The-Metal-Corpus/blob/main/The%20Metal%20Corpus.ipynb" class="cta-button" target="_blank">View the Notebook</a>
+    <a href="https://github.com/wanderson33245/The-Metal-Corpus" class="cta-button secondary" target="_blank">GitHub Repo</a>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 William Anderson
+</footer>
+
+</body>
+</html>
