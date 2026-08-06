@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guess the Subgenre | The Metal Corpus</title>
+<meta name="description" content="A word-guessing game built from 63,000 heavy metal songs">
+<link rel="icon" type="image/png" href="assets/favicon2.png">
+<meta property="og:title" content="Guess the Subgenre | William Anderson">
+<meta property="og:description" content="A word-guessing game built from 63,000 heavy metal songs">
+<meta property="og:image" content="https://wandersondata.com/assets/TheMetalCorpusLogoGold.jpg">
+<meta property="og:url" content="https://wandersondata.com/subgenre-game.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0B0B0C;
+    --panel: #151517;
+    --panel-raised: #1B1B1E;
+    --line: #29292c;
+    --amber: #E8A33D;
+    --amber-dim: #8a641f;
+    --steel: #5B6B73;
+    --text: #EDEDEC;
+    --text-dim: #9a9a9e;
+    --wrong: #b5453a;
+    --wrong-glow: rgba(181, 69, 58, 0.35);
+    --correct-glow: rgba(232, 163, 61, 0.45);
+    --radius: 3px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(232, 163, 61, 0.06), transparent 40%),
+      radial-gradient(circle at 85% 100%, rgba(91, 107, 115, 0.08), transparent 45%);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  a { color: var(--amber); }
+
+  /* ---------- Header (matches metal-corpus.html) ---------- */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    border-bottom: 1px solid rgba(91, 107, 115, 0.3);
+  }
+
+  nav .logo {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  nav .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    margin-left: 2rem;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+  }
+
+  nav .nav-links a:hover,
+  nav .nav-links a.active {
+    color: var(--amber);
+  }
+
+  @media (max-width: 620px) {
+    nav { padding: 1.25rem 1.5rem; }
+    nav .nav-links a { margin-left: 1rem; font-size: 0.85rem; }
+  }
+
+  header.hero {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 24px 8px;
+    text-align: center;
+  }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    font-size: clamp(2rem, 5vw, 3.1rem);
+    margin: 0 0 14px;
+    line-height: 1.05;
+  }
+  h1 span { color: var(--amber); }
+
+  .subtitle {
+    color: var(--text-dim);
+    max-width: 560px;
+    margin: 0 auto;
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  .content-note {
+    color: var(--text-dim);
+    max-width: 560px;
+    margin: 14px auto 0;
+    font-size: 0.76rem;
+    font-family: 'IBM Plex Mono', monospace;
+    line-height: 1.5;
+    border-left: 2px solid var(--amber-dim);
+    padding-left: 10px;
+    text-align: left;
+  }
+
+  /* ---------- Difficulty tabs ---------- */
+  .tabs {
+    max-width: 720px;
+    margin: 34px auto 0;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  @media (max-width: 620px) {
+    .tabs { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .tab {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 12px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .tab:hover { border-color: var(--amber-dim); }
+  .tab.active {
+    border-color: var(--amber);
+    background: linear-gradient(180deg, rgba(232,163,61,0.12), rgba(232,163,61,0.02));
+  }
+  .tab-num { font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.08em; }
+  .tab.active .tab-num { color: var(--amber); }
+  .tab-label { font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase; font-size: 0.88rem; margin-top: 3px; letter-spacing: 0.02em; }
+
+  .difficulty-sublabel {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.82rem;
+    font-family: 'IBM Plex Mono', monospace;
+    margin: 14px 24px 0;
+  }
+
+  /* ---------- Scoreboard ---------- */
+  .scoreboard {
+    max-width: 720px;
+    margin: 22px auto 0;
+    padding: 0 24px;
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+  .scoreboard b { color: var(--amber); font-weight: 600; }
+
+  /* ---------- Word board ---------- */
+  .board-wrap {
+    max-width: 800px;
+    margin: 30px auto 0;
+    padding: 0 24px;
+  }
+
+  .board {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 30px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-content: flex-start;
+    min-height: 220px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .board::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--amber), transparent);
+    opacity: 0.5;
+  }
+
+  .word-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.86rem;
+    background: var(--panel-raised);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 7px 12px;
+    color: var(--text);
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+    animation: tagIn 0.32s ease forwards;
+    white-space: nowrap;
+  }
+
+  @keyframes tagIn {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .word-tag.reveal-correct {
+    border-color: var(--amber);
+    color: var(--amber);
+    box-shadow: 0 0 14px var(--correct-glow);
+  }
+
+  /* ---------- Options ---------- */
+  .options {
+    max-width: 800px;
+    margin: 26px auto 0;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+  }
+
+  .option-btn {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: 0.92rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+    border-radius: var(--radius);
+    padding: 14px 12px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.1s ease, background 0.15s ease;
+    text-align: center;
+  }
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--steel);
+    background: var(--panel-raised);
+  }
+  .option-btn:active:not(:disabled) { transform: scale(0.98); }
+  .option-btn:disabled { cursor: default; }
+
+  .option-btn.correct {
+    border-color: var(--amber);
+    background: linear-gradient(180deg, rgba(232,163,61,0.18), rgba(232,163,61,0.04));
+    color: var(--amber);
+    box-shadow: 0 0 16px var(--correct-glow);
+  }
+  .option-btn.wrong {
+    border-color: var(--wrong);
+    background: linear-gradient(180deg, rgba(181,69,58,0.18), rgba(181,69,58,0.04));
+    color: #e0968e;
+    box-shadow: 0 0 16px var(--wrong-glow);
+    animation: shake 0.32s ease;
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+
+  /* ---------- Feedback + controls ---------- */
+  .feedback-row {
+    max-width: 800px;
+    margin: 20px auto 0;
+    padding: 0 24px;
+    min-height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .feedback {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.86rem;
+  }
+  .feedback.correct-txt { color: var(--amber); }
+  .feedback.wrong-txt { color: #e0968e; }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .next-btn {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: 0.92rem;
+    background: var(--amber);
+    color: #1a1305;
+    border: none;
+    border-radius: var(--radius);
+    padding: 13px 34px;
+    cursor: pointer;
+    transition: filter 0.15s ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .next-btn.visible { opacity: 1; pointer-events: auto; }
+  .next-btn:hover { filter: brightness(1.1); }
+
+  footer {
+    max-width: 800px;
+    margin: 60px auto 0;
+    padding: 20px 24px 0;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    color: var(--text-dim);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.76rem;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">WILLIAM ANDERSON</a>
+  <div class="nav-links">
+    <a href="metal-corpus.html" class="active">The Metal Corpus</a>
+    <a href="certifications.html">Certifications</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="eyebrow">The Metal Corpus Interactive</div>
+  <h1>Guess The <span>Subgenre</span></h1>
+  <p class="subtitle">
+    Pulled from 63,000 heavy metal songs. These are the words used far more often in one
+    subgenre than any other. No metal knowledge required.
+  </p>
+  <p class="content-note">
+    Content note: some word sets include violent, gory, or dark/occult language. That's just the genre, not editorializing.
+  </p>
+</header>
+
+<div class="tabs" id="tabs"></div>
+<div class="difficulty-sublabel" id="difficultySublabel"></div>
+
+<div class="scoreboard">
+  <span>SCORE <b id="scoreVal">0 / 0</b></span>
+  <span>STREAK <b id="streakVal">0</b></span>
+  <span>BEST <b id="bestVal">0</b></span>
+</div>
+
+<div class="board-wrap">
+  <div class="board" id="board"></div>
+</div>
+
+<div class="options" id="options"></div>
+
+<div class="feedback-row">
+  <div class="feedback" id="feedback"></div>
+</div>
+
+<div class="controls">
+  <button class="next-btn" id="nextBtn">Next Round →</button>
+</div>
+
+<footer>
+  Word data drawn from <a href="metal-corpus.html">The Metal Corpus</a>, a linguistic analysis of 1,113 metal bands and 63,647 songs.
+</footer>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  const tabsEl = document.getElementById('tabs');
+  const subLabelEl = document.getElementById('difficultySublabel');
+  const boardEl = document.getElementById('board');
+  const optionsEl = document.getElementById('options');
+  const feedbackEl = document.getElementById('feedback');
+  const nextBtn = document.getElementById('nextBtn');
+  const scoreValEl = document.getElementById('scoreVal');
+  const streakValEl = document.getElementById('streakVal');
+  const bestValEl = document.getElementById('bestVal');
+
+  const DIFF_ORDER = ['easy', 'medium', 'hard', 'admin'];
+
+  let state = {
+    difficulty: 'easy',
+    correct: 0,
+    total: 0,
+    streak: 0,
+    best: 0,
+    currentAnswer: null,
+    roundOver: false,
+  };
+
+  // Restore best streak from this browser only (no server, no accounts).
+  try {
+    const savedBest = localStorage.getItem('tmc_best_streak');
+    if (savedBest) state.best = parseInt(savedBest, 10) || 0;
+  } catch (e) { /* localStorage unavailable. Ignore, best just won't persist */ }
+
+  function buildTabs() {
+    tabsEl.innerHTML = '';
+    DIFF_ORDER.forEach((key, i) => {
+      const cfg = DIFFICULTIES[key];
+      const tab = document.createElement('div');
+      tab.className = 'tab' + (key === state.difficulty ? ' active' : '');
+      tab.innerHTML = `<div class="tab-num">${String(i + 1).padStart(2, '0')}</div><div class="tab-label">${cfg.label}</div>`;
+      tab.addEventListener('click', () => {
+        if (state.difficulty === key) return;
+        state.difficulty = key;
+        state.correct = 0;
+        state.total = 0;
+        state.streak = 0;
+        buildTabs();
+        updateScoreboard();
+        startRound();
+      });
+      tabsEl.appendChild(tab);
+    });
+    subLabelEl.textContent = DIFFICULTIES[state.difficulty].sublabel;
+  }
+
+  function updateScoreboard() {
+    scoreValEl.textContent = `${state.correct} / ${state.total}`;
+    streakValEl.textContent = state.streak;
+    bestValEl.textContent = state.best;
+  }
+
+  // Fisher-Yates shuffle. Used only for picking easy mode's random 3 of 6 subgenres
+  function sample(arr, n) {
+    const copy = arr.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy.slice(0, n);
+  }
+
+  function startRound() {
+    state.roundOver = false;
+    feedbackEl.textContent = '';
+    feedbackEl.className = 'feedback';
+    nextBtn.classList.remove('visible');
+
+    const cfg = DIFFICULTIES[state.difficulty];
+
+    // Pick the pool of options for this round. "Easy" pulls a random subset
+    // of the classic 6 every round; Medium/Hard/Admin always show their
+    // full pool. Either way, the pool is then re-sorted back into CSV
+    // order so the on-screen options never shuffle position round to round.
+    let optionPool;
+    if (cfg.pool.length > cfg.optionCount) {
+      const chosen = new Set(sample(cfg.pool, cfg.optionCount));
+      optionPool = cfg.pool.filter((sub) => chosen.has(sub));
+    } else {
+      optionPool = cfg.pool.slice();
+    }
+
+    // Pick the answer subgenre from the option pool, then draw 20 words
+    // from its top-50 most disproportionate word list.
+    const answer = optionPool[Math.floor(Math.random() * optionPool.length)];
+    state.currentAnswer = answer;
+
+    const words = sample(SUBGENRE_WORDS[answer], 20);
+
+    boardEl.innerHTML = '';
+    words.forEach((w, i) => {
+      const tag = document.createElement('div');
+      tag.className = 'word-tag';
+      tag.textContent = w;
+      tag.style.animationDelay = (i * 0.025) + 's';
+      boardEl.appendChild(tag);
+    });
+
+    optionsEl.innerHTML = '';
+    optionsEl.style.gridTemplateColumns = cfg.optionCount > 6
+      ? 'repeat(auto-fit, minmax(130px, 1fr))'
+      : 'repeat(auto-fit, minmax(150px, 1fr))';
+
+    // optionPool is already in CSV order. Render it as-is, no shuffle.
+    optionPool.forEach((sub) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.textContent = SUBGENRE_NAMES[sub];
+      btn.dataset.sub = sub;
+      btn.addEventListener('click', () => handleGuess(sub, btn));
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function handleGuess(guess, btnEl) {
+    if (state.roundOver) return;
+    state.roundOver = true;
+    state.total += 1;
+
+    const allBtns = optionsEl.querySelectorAll('.option-btn');
+    allBtns.forEach(b => b.disabled = true);
+
+    if (guess === state.currentAnswer) {
+      state.correct += 1;
+      state.streak += 1;
+      if (state.streak > state.best) {
+        state.best = state.streak;
+        try { localStorage.setItem('tmc_best_streak', String(state.best)); } catch (e) {}
+      }
+      btnEl.classList.add('correct');
+      feedbackEl.textContent = `Correct. That was ${SUBGENRE_NAMES[state.currentAnswer]}.`;
+      feedbackEl.className = 'feedback correct-txt';
+    } else {
+      state.streak = 0;
+      btnEl.classList.add('wrong');
+      allBtns.forEach(b => {
+        if (b.dataset.sub === state.currentAnswer) b.classList.add('correct');
+      });
+      feedbackEl.textContent = `Incorrect. That was ${SUBGENRE_NAMES[state.currentAnswer]}.`;
+      feedbackEl.className = 'feedback wrong-txt';
+    }
+
+    updateScoreboard();
+    nextBtn.classList.add('visible');
+  }
+
+  nextBtn.addEventListener('click', startRound);
+
+  buildTabs();
+  updateScoreboard();
+  startRound();
+})();
+</script>
+
+</body>
+</html>
